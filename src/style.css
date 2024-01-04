@@ -29,15 +29,6 @@ header {
 	background-color: #673ab8;
 }
 
-main {
-	flex: auto;
-	display: flex;
-	align-items: center;
-	max-width: 1280px;
-	margin: 0 auto;
-	text-align: center;
-}
-
 @media (max-width: 639px) {
 	main {
 		margin: 2rem;
