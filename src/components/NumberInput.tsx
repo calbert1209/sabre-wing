@@ -1,6 +1,6 @@
 import { Signal } from "@preact/signals";
 import { ComponentProps } from "preact";
-import { ChangeEvent } from "preact/compat";
+import { ChangeEvent, useCallback } from "preact/compat";
 
 export function NumberInput({
   label,
@@ -13,10 +13,16 @@ export function NumberInput({
   onChange?: (next: number) => void;
   readOnly?: boolean;
 }) {
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = useCallback<HTMLInputElement["onchange"]>((e) => {
     const target = e.target as HTMLInputElement;
     onChange?.(parseInt(target.value, 10));
-  };
+  }, []);
+
+  const muteOnEnterKey = useCallback((e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  }, []);
   return (
     <>
       <label children={label} />
@@ -25,6 +31,8 @@ export function NumberInput({
         value={initialValue}
         onChange={handleOnChange}
         readOnly={readOnly}
+        onKeyDown={muteOnEnterKey}
+        onKeyUp={muteOnEnterKey}
       />
     </>
   );
