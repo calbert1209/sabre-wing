@@ -65,7 +65,11 @@ function Summary({
 
 export function Settings() {
   const dose = useSignal(20);
-  const { signal: steps, splice } = useSignalArray([
+  const {
+    signal: steps,
+    splice,
+    push,
+  } = useSignalArray([
     { time: 30, water: 60 },
     { time: 30, water: 90 },
     { time: 30, water: 100 },
@@ -89,6 +93,11 @@ export function Settings() {
     splice(index, 1);
   }, []);
 
+  const handleOnAddStep = useCallback<HTMLButtonElement["onclick"]>((e) => {
+    e.preventDefault();
+    push({ time: 30, water: 50 });
+  }, []);
+
   return (
     <section>
       <form>
@@ -97,6 +106,7 @@ export function Settings() {
           dose={dose}
           onChangeDose={onChangeDose}
         />
+        <button onClick={handleOnAddStep}>step +</button>
         {steps.value.map(({ time, water }, index) => (
           <StepSettings
             key={`item-${index}`}
