@@ -1,21 +1,32 @@
 import { NumberInput } from "@/components/NumberInput";
 import { useSignalArray } from "@/hooks/useSignalArray";
 import { Signal, useComputed, useSignal } from "@preact/signals";
+import { useCallback, useMemo } from "preact/hooks";
 
 function StepSettings({
+  stepIndex,
   time,
   water,
   onChange,
-  stepIndex,
+  onDelete,
 }: {
   stepIndex: number;
-  onChange: (stepIndex: number, name: "time" | "water", value: number) => void;
   time: Signal<number> | number;
   water: Signal<number> | number;
+  onChange: (stepIndex: number, name: "time" | "water", value: number) => void;
+  onDelete: (stepIndex: number) => void;
 }) {
   const handleOnChange = (name: "time" | "water", nextValue: number) => {
     onChange(stepIndex, name, nextValue);
   };
+
+  const handleOnDelete = useCallback<HTMLButtonElement["onclick"]>(
+    (e) => {
+      e.preventDefault();
+      onDelete(stepIndex);
+    },
+    [stepIndex]
+  );
 
   return (
     <fieldset>
@@ -30,6 +41,7 @@ function StepSettings({
         initialValue={water}
         onChange={(value) => handleOnChange("water", value)}
       />
+      <button onClick={handleOnDelete}>-</button>
     </fieldset>
   );
 }
@@ -60,10 +72,7 @@ export function Settings() {
     { time: 30, water: 100 },
   ]);
   const totalWaterVolume = useComputed(() => {
-    const nextTotal =
-      steps.value?.reduce((agg, step) => agg + step.water, 0) ?? 0;
-    console.log(steps.value);
-    return nextTotal;
+    return steps.value?.reduce((agg, step) => agg + step.water, 0);
   });
 
   const onChangeDose = (nextDose: number) => (dose.value = nextDose);
@@ -75,6 +84,10 @@ export function Settings() {
     const nextStep = { ...steps.value[stepIndex], [name]: value };
     splice(stepIndex, 1, nextStep);
   };
+
+  const handleOnDeleteStep = useCallback((index: number) => {
+    splice(index, 1);
+  }, []);
 
   return (
     <section>
@@ -91,6 +104,7 @@ export function Settings() {
             water={water}
             time={time}
             onChange={handleOnChangeStep}
+            onDelete={handleOnDeleteStep}
           />
         ))}
       </form>
