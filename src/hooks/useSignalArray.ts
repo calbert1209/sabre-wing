@@ -1,30 +1,27 @@
-import { Signal, useSignal } from "@preact/signals";
-import { useCallback } from "preact/hooks";
+import { Signal, signal } from "@preact/signals";
+import { useMemo } from "preact/hooks";
 
-type SignalArray<T> = {
-  signal: Signal<T[]>;
-  splice: (start: number, deleteCount?: number, ...items: T[]) => void;
-  push: (items: T) => void;
-};
+export class SignalArray<T> {
+  public signal: Signal<T[]>;
+
+  constructor(initial: T[]) {
+    this.signal = signal(initial);
+  }
+
+  public splice(start: number, deleteCount?: number, ...items: T[]) {
+    const nextArray = [...this.signal.value];
+    nextArray.splice(start, deleteCount, ...items);
+    this.signal.value = nextArray;
+  }
+
+  public push(item: T) {
+    const nextArray = [...this.signal.value];
+    nextArray.push(item);
+    this.signal.value = nextArray;
+  }
+}
 
 export function useSignalArray<T>(init: (() => T[]) | T[]): SignalArray<T> {
   const initialValues = typeof init === "function" ? init() : init;
-  const array = useSignal<T[]>(initialValues);
-
-  const splice = useCallback(
-    (start: number, deleteCount?: number, ...items: T[]) => {
-      const nextArray = [...array.value];
-      nextArray.splice(start, deleteCount, ...items);
-      array.value = nextArray;
-    },
-    []
-  );
-
-  const push = useCallback((item: T) => {
-    const nextArray = [...array.value];
-    nextArray.push(item);
-    array.value = nextArray;
-  }, []);
-
-  return { signal: array, splice, push };
+  return useMemo(() => new SignalArray(initialValues), []);
 }

@@ -1,7 +1,12 @@
 import { NumberInput } from "@/components/NumberInput";
-import { useSignalArray } from "@/hooks/useSignalArray";
-import { Signal, useComputed, useSignal } from "@preact/signals";
-import { useCallback, useMemo } from "preact/hooks";
+import {
+  RecipeStep,
+  StepChangeHandler,
+  useRecipeState,
+} from "@/stores/RecipeState";
+import { Signal } from "@preact/signals";
+import { ComponentProps } from "preact";
+import { useCallback } from "preact/hooks";
 
 function StepSettings({
   stepIndex,
@@ -13,10 +18,10 @@ function StepSettings({
   stepIndex: number;
   time: Signal<number> | number;
   water: Signal<number> | number;
-  onChange: (stepIndex: number, name: "time" | "water", value: number) => void;
+  onChange: StepChangeHandler;
   onDelete: (stepIndex: number) => void;
 }) {
-  const handleOnChange = (name: "time" | "water", nextValue: number) => {
+  const handleOnChange = (name: keyof RecipeStep, nextValue: number) => {
     onChange(stepIndex, name, nextValue);
   };
 
@@ -64,57 +69,38 @@ function Summary({
 }
 
 export function Settings() {
-  const dose = useSignal(20);
-  const {
-    signal: steps,
-    splice,
-    push,
-  } = useSignalArray([
-    { time: 30, water: 60 },
-    { time: 30, water: 90 },
-    { time: 30, water: 100 },
-    { time: 30, water: 100 },
-  ]);
-  const totalWaterVolume = useComputed(() => {
-    return steps.value?.reduce((agg, step) => agg + step.water, 0);
-  });
-
-  const onChangeDose = (nextDose: number) => (dose.value = nextDose);
-  const handleOnChangeStep = (
-    stepIndex: number,
-    name: "time" | "water",
-    value: number
-  ) => {
-    const nextStep = { ...steps.value[stepIndex], [name]: value };
-    splice(stepIndex, 1, nextStep);
-  };
-
-  const handleOnDeleteStep = useCallback((index: number) => {
-    splice(index, 1);
-  }, []);
+  const state = useRecipeState();
 
   const handleOnAddStep = useCallback<HTMLButtonElement["onclick"]>((e) => {
     e.preventDefault();
-    push({ time: 30, water: 50 });
+    state.addStep({ time: 30, water: 50 });
   }, []);
+
+  const handleOnChange = useCallback<
+    ComponentProps<typeof StepSettings>["onChange"]
+  >((...args) => state.updateStep(...args), []);
+  const handleOnDelete = useCallback(
+    (index: number) => state.deleteStep(index),
+    []
+  );
 
   return (
     <section>
       <form>
         <Summary
-          totalWaterVolume={totalWaterVolume.value}
-          dose={dose}
-          onChangeDose={onChangeDose}
+          totalWaterVolume={state.totalWaterVolume.value}
+          dose={state.dose}
+          onChangeDose={(d) => state.setDose(d)}
         />
         <button onClick={handleOnAddStep}>step +</button>
-        {steps.value.map(({ time, water }, index) => (
+        {state.steps.signal.value.map(({ time, water }, index) => (
           <StepSettings
             key={`item-${index}`}
             stepIndex={index}
             water={water}
             time={time}
-            onChange={handleOnChangeStep}
-            onDelete={handleOnDeleteStep}
+            onChange={handleOnChange}
+            onDelete={handleOnDelete}
           />
         ))}
       </form>
