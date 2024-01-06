@@ -9,7 +9,7 @@ export type StepChangeHandler = (
   value: number
 ) => void;
 
-class RecipeState {
+export class RecipeState {
   public dose: Signal<number>;
   public steps: SignalArray<RecipeStep>;
 
@@ -40,20 +40,4 @@ class RecipeState {
     const nextStep = { ...this.steps.signal.value[index], [name]: value };
     this.steps.splice(index, 1, nextStep);
   }
-}
-
-export function useRecipeState() {
-  return useMemo(
-    () =>
-      new RecipeState({
-        dose: 20,
-        steps: [
-          { time: 30, water: 60 },
-          { time: 30, water: 90 },
-          { time: 30, water: 100 },
-          { time: 30, water: 100 },
-        ],
-      }),
-    []
-  );
 }

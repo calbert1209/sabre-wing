@@ -1,9 +1,6 @@
 import { NumberInput } from "@/components/NumberInput";
-import {
-  RecipeStep,
-  StepChangeHandler,
-  useRecipeState,
-} from "@/stores/RecipeState";
+import { useRecipeStateContext } from "@/providers/RecipeStateProvider";
+import { RecipeStep, StepChangeHandler } from "@/stores/RecipeState";
 import { Signal } from "@preact/signals";
 import { ComponentProps } from "preact";
 import { useCallback } from "preact/hooks";
@@ -69,7 +66,7 @@ function Summary({
 }
 
 export function Settings() {
-  const state = useRecipeState();
+  const state = useRecipeStateContext();
 
   const handleOnAddStep = useCallback<HTMLButtonElement["onclick"]>((e) => {
     e.preventDefault();

@@ -4,16 +4,19 @@ import { LocationProvider, Router, Route } from "preact-iso";
 import { NotFound } from "./pages/_404";
 import "./style.css";
 import { Settings } from "./pages/Settings/index";
+import { RecipeStateProvider } from "./providers/RecipeStateProvider";
 
 export function App() {
   return (
     <LocationProvider>
-      <main>
-        <Router>
-          <Route path="/" component={Settings} />
-          <Route default component={NotFound} />
-        </Router>
-      </main>
+      <RecipeStateProvider>
+        <main>
+          <Router>
+            <Route path="/" component={Settings} />
+            <Route default component={NotFound} />
+          </Router>
+        </main>
+      </RecipeStateProvider>
     </LocationProvider>
   );
 }
