@@ -1,21 +1,29 @@
+import { Signal } from "@preact/signals";
+import { ComponentProps } from "preact";
+import { ChangeEvent } from "preact/compat";
+
 export function NumberInput({
-  name,
   label,
   initialValue = 0,
+  onChange,
   readOnly,
 }: {
-  name: string;
   label: string;
-  initialValue?: number;
+  initialValue?: Signal<number> | number;
+  onChange?: (next: number) => void;
   readOnly?: boolean;
 }) {
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    onChange?.(parseInt(target.value, 10));
+  };
   return (
     <>
-      <label for={name} children={label} />
+      <label children={label} />
       <input
         type="number"
-        name={name}
         value={initialValue}
+        onChange={handleOnChange}
         readOnly={readOnly}
       />
     </>
