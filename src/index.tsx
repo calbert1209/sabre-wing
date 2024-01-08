@@ -6,12 +6,21 @@ import "./style.css";
 import { Settings } from "./pages/Settings/index";
 import { RecipeStateProvider } from "./providers/RecipeStateProvider";
 
+function Pour() {
+  return (
+    <section>
+      <h1>Let's pour coffee!</h1>
+    </section>
+  );
+}
+
 export function App() {
   return (
     <LocationProvider>
       <RecipeStateProvider>
         <main>
           <Router>
+            <Route path="/pour" component={Pour} />
             <Route path="/" component={Settings} />
             <Route default component={NotFound} />
           </Router>

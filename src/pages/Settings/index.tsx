@@ -3,6 +3,7 @@ import { useRecipeStateContext } from "@/providers/RecipeStateProvider";
 import { RecipeStep, StepChangeHandler } from "@/stores/RecipeState";
 import { Signal } from "@preact/signals";
 import { ComponentProps } from "preact";
+import { useLocation } from "preact-iso/router";
 import { useCallback } from "preact/hooks";
 
 function StepSettings({
@@ -68,6 +69,8 @@ function Summary({
 export function Settings() {
   const state = useRecipeStateContext();
 
+  const { route } = useLocation();
+
   const handleOnAddStep = useCallback<HTMLButtonElement["onclick"]>((e) => {
     e.preventDefault();
     state.addStep({ time: 30, water: 50 });
@@ -81,9 +84,15 @@ export function Settings() {
     []
   );
 
+  const handleOnClickOkay = useCallback<HTMLButtonElement["onclick"]>((e) => {
+    e.preventDefault();
+    route("/pour");
+  }, []);
+
   return (
     <section>
       <form>
+        <button onClick={handleOnClickOkay}>Okay</button>
         <Summary
           totalWaterVolume={state.totalWaterVolume.value}
           dose={state.dose}
