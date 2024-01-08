@@ -5,6 +5,7 @@ import { NotFound } from "./pages/_404";
 import "./style.css";
 import { Settings } from "./pages/Settings/index";
 import { RecipeStateProvider } from "./providers/RecipeStateProvider";
+import { Routes } from "./constants/routes";
 
 function Pour() {
   return (
@@ -20,8 +21,8 @@ export function App() {
       <RecipeStateProvider>
         <main>
           <Router>
-            <Route path="/pour" component={Pour} />
-            <Route path="/" component={Settings} />
+            <Route path={Routes.pour} component={Pour} />
+            <Route path={Routes.root} component={Settings} />
             <Route default component={NotFound} />
           </Router>
         </main>

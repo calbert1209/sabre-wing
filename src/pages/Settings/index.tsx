@@ -1,4 +1,5 @@
 import { NumberInput } from "@/components/NumberInput";
+import { Routes } from "@/constants/routes";
 import { useRecipeStateContext } from "@/providers/RecipeStateProvider";
 import { RecipeStep, StepChangeHandler } from "@/stores/RecipeState";
 import { Signal } from "@preact/signals";
@@ -86,7 +87,7 @@ export function Settings() {
 
   const handleOnClickOkay = useCallback<HTMLButtonElement["onclick"]>((e) => {
     e.preventDefault();
-    route("/pour");
+    route(Routes.pour);
   }, []);
 
   return (
