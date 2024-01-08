@@ -6,14 +6,7 @@ import "./style.css";
 import { Settings } from "./pages/Settings/index";
 import { RecipeStateProvider } from "./providers/RecipeStateProvider";
 import { Routes } from "./constants/routes";
-
-function Pour() {
-  return (
-    <section>
-      <h1>Let's pour coffee!</h1>
-    </section>
-  );
-}
+import { Pour } from "./pages/Pour";
 
 export function App() {
   return (
