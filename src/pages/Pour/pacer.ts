@@ -33,6 +33,8 @@ export class Pacer {
   }
 
   public start() {
+    if (this.clock.running) return;
+
     console.log("Pacer: start");
 
     this.clock.start();

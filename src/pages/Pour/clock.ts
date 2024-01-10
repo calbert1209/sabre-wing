@@ -1,8 +1,8 @@
 export class Clock extends EventTarget {
   private value: number;
-  private running: boolean;
   private interval: number;
   private tick: number;
+  private _running: boolean;
 
   constructor(tick: number = 1000) {
     super();
@@ -10,6 +10,14 @@ export class Clock extends EventTarget {
     this.running = false;
     this.interval = -1;
     this.tick = tick;
+  }
+
+  public get running() {
+    return this._running;
+  }
+
+  private set running(value: boolean) {
+    this._running = value;
   }
 
   public start() {
