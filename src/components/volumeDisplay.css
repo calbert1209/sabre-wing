@@ -1,0 +1,30 @@
+
+.volume-display {
+  --minor-width: 2.5rem;
+  --major-width: 6rem;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.volume-display-number {
+  font-family: var(--font-koho);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.volume-display-primary {
+  font-size: 3rem;
+  line-height: 1;
+  width: var(--major-width);
+}
+
+.volume-display-secondary {
+  width: var(--minor-width);
+}
+
+.volume-display-end {
+  margin-bottom: auto;
+}

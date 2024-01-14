@@ -5,6 +5,7 @@ import { useLocation } from "preact-iso";
 import { useCallback, useEffect, useMemo } from "preact/hooks";
 import { Pacer, PacerStep } from "./pacer";
 import { useComputed } from "@preact/signals";
+import { VolumeDisplay } from "@/components/VolumeDisplay";
 
 export function Pour() {
   const { route } = useLocation();
@@ -45,14 +46,17 @@ export function Pour() {
   return (
     <section>
       <button onClick={handleOnClickSettings}>Settings</button>
-      <h1>Let's pour coffee!</h1>
+      <VolumeDisplay
+        totalVolume={pacer.totalVolume.value}
+        start={pacer.volumeStart.value}
+        end={pacer.volumeEnd.value}
+      />
       <button onClick={handleOnStart}>Start</button>
       <button onClick={handleOnPause}>Pause</button>
       <button onClick={handleOnReset}>Reset</button>
       <p>step: {pacer.stepIndex}</p>
       <p>step time: {pacer.stepCountdown}</p>
       <p>total time: {pacer.totalTime}</p>
-      <p>total volume: {Math.floor(pacer.totalVolume.value)}</p>
     </section>
   );
 }
