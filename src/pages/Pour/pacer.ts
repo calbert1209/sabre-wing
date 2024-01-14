@@ -17,6 +17,7 @@ export class Pacer {
   public readonly totalVolume: Signal<number>;
   public readonly volumeStart: Signal<number>;
   public readonly volumeEnd: Signal<number>;
+  public readonly running: Signal<boolean>;
 
   private readonly targetVolume: number;
 
@@ -33,6 +34,7 @@ export class Pacer {
     this.volumeStart = signal(0);
     this.volumeEnd = signal(steps[0].water);
     this.targetVolume = steps.reduce((agg, c) => agg + c.water, 0);
+    this.running = signal(false);
   }
 
   public get currentStep(): PacerStep {
@@ -44,10 +46,12 @@ export class Pacer {
 
     if (this.totalVolume.value >= this.targetVolume) return;
 
+    this.running.value = true;
     this.clock.start();
   }
 
   public stop() {
+    this.running.value = false;
     this.clock.stop();
   }
 
@@ -59,6 +63,7 @@ export class Pacer {
     this.totalVolume.value = 0;
     this.volumeStart.value = 0;
     this.volumeEnd.value = this.steps[0].water;
+    this.running.value = false;
   }
 
   private onTick() {
