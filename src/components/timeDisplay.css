@@ -1,30 +1,48 @@
-
 .time-display {
-  font-family: var(--font-koho);
-  font-size: 3rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
 }
 
-.time-display-digits {
+.total-time-display {
+  font-family: var(--font-koho);
+  font-size: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+}
+
+.total-time-display[data-size="primary"] {
+  font-size: 3rem;
+  gap: 4px;
+}
+
+.total-time-display-digits {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 4rem;
+    width: 1.5rem;
 }
 
-.time-display-minutes {
+.total-time-display[data-size="primary"] .total-time-display-digits {
+  width: 4rem;
+}
+
+.total-time-display-minutes {
   justify-content: flex-end;
 }
 
-.time-display-colon {
+.total-time-display-colon {
+  transform: translateY(-2px);
+}
+
+.total-time-display[data-size="primary"] .total-time-display-colon {
   transform: translateY(-5px);
 }
 
-.time-display[data-running="true"] .time-display-colon {
+.total-time-display[data-running="true"] .total-time-display-colon {
   animation-name: colon-pulse;
   animation-duration: 1000ms;
   animation-timing-function: ease-in-out;
@@ -45,6 +63,6 @@
   }
 }
 
-.time-display-seconds {
+.total-time-display-seconds {
   justify-content: flex-start;
 }
