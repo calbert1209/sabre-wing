@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo } from "preact/hooks";
 import { Pacer, PacerStep } from "./pacer";
 import { useComputed } from "@preact/signals";
 import { VolumeDisplay } from "@/components/VolumeDisplay";
+import { TimeDisplay } from "@/components/TimeDisplay";
 
 export function Pour() {
   const { route } = useLocation();
@@ -56,7 +57,13 @@ export function Pour() {
       <button onClick={handleOnReset}>Reset</button>
       <p>step: {pacer.stepIndex}</p>
       <p>step time: {pacer.stepCountdown}</p>
-      <p>total time: {pacer.totalTime}</p>
+      <div>
+        <span>total time:</span>
+        <TimeDisplay
+          sec={pacer.totalTime.value}
+          running={pacer.running.value}
+        />
+      </div>
     </section>
   );
 }
