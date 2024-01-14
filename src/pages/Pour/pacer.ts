@@ -1,4 +1,4 @@
-import { Signal, signal } from "@preact/signals";
+import { Signal, computed, signal } from "@preact/signals";
 import { Clock } from "./clock";
 
 export class PacerStep {
@@ -18,6 +18,8 @@ export class Pacer {
   public readonly volumeStart: Signal<number>;
   public readonly volumeEnd: Signal<number>;
 
+  private readonly targetVolume: number;
+
   constructor(
     private readonly steps: PacerStep[],
     tickDuration: number = 1000
@@ -30,6 +32,7 @@ export class Pacer {
     this.totalVolume = signal(0);
     this.volumeStart = signal(0);
     this.volumeEnd = signal(steps[0].water);
+    this.targetVolume = steps.reduce((agg, c) => agg + c.water, 0);
   }
 
   public get currentStep(): PacerStep {
@@ -39,19 +42,16 @@ export class Pacer {
   public start() {
     if (this.clock.running) return;
 
-    console.log("Pacer: start");
+    if (this.totalVolume.value >= this.targetVolume) return;
 
     this.clock.start();
   }
 
   public stop() {
-    console.log("Pacer: stop");
-
     this.clock.stop();
   }
 
   public reset() {
-    console.log("Pacer: reset");
     this.clock.reset();
     this.totalTime.value = 0;
     this.stepCountdown.value = this.steps[0].time;
@@ -62,17 +62,16 @@ export class Pacer {
   }
 
   private onTick() {
-    this.totalTime.value += 1;
+    this.totalTime.value = this.clock.value;
+    this.totalVolume.value += this.currentStep.amountPerTick;
+
     if (
       this.stepCountdown.value === 0 &&
       this.stepIndex.value + 1 >= this.steps.length
     ) {
-      console.log("Pacer: all done");
       this.stop();
       return;
     }
-
-    this.totalVolume.value += this.currentStep.amountPerTick;
 
     if (this.stepCountdown.value === 0) {
       this.stepIndex.value += 1;
@@ -83,7 +82,7 @@ export class Pacer {
 
         return agg + step.water;
       }, 0);
-      this.stepCountdown.value = this.currentStep.time;
+      this.stepCountdown.value = this.currentStep.time - 1;
       this.volumeStart.value = nextStart;
       this.volumeEnd.value = nextStart + this.currentStep.water;
       this.totalVolume.value = nextStart;

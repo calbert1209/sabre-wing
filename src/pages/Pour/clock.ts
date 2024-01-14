@@ -1,13 +1,13 @@
 export class Clock extends EventTarget {
-  private value: number;
+  private _value: number;
   private interval: number;
   private tick: number;
   private _running: boolean;
 
   constructor(tick: number = 1000) {
     super();
-    this.value = 0;
-    this.running = false;
+    this._value = 0;
+    this._running = false;
     this.interval = -1;
     this.tick = tick;
   }
@@ -16,32 +16,32 @@ export class Clock extends EventTarget {
     return this._running;
   }
 
-  private set running(value: boolean) {
-    this._running = value;
+  public get value() {
+    return this._value;
   }
 
   public start() {
     const self = this;
-    self.running = true;
+    self._running = true;
     self.interval = window.setInterval(() => {
       if (!self.running) {
         window.clearInterval(self.interval);
         return;
       }
 
-      const event = new CustomEvent("tick", { detail: self.value });
-      self.value += 1;
+      const event = new CustomEvent("tick", { detail: self._value });
+      self._value += 1;
       self.dispatchEvent(event);
     }, self.tick);
   }
 
   public stop() {
     clearInterval(this.interval);
-    this.running = false;
+    this._running = false;
   }
 
   public reset() {
     this.stop();
-    this.value = 0;
+    this._value = 0;
   }
 }
