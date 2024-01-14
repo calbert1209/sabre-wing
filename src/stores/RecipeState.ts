@@ -1,6 +1,5 @@
 import { SignalArray } from "@/hooks/useSignalArray";
 import { Signal, signal, computed } from "@preact/signals";
-import { useMemo } from "preact/hooks";
 
 export type RecipeStep = { time: number; water: number };
 export type StepChangeHandler = (
