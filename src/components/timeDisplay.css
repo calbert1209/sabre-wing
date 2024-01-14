@@ -1,0 +1,50 @@
+
+.time-display {
+  font-family: var(--font-koho);
+  font-size: 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-display-digits {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 4rem;
+}
+
+.time-display-minutes {
+  justify-content: flex-end;
+}
+
+.time-display-colon {
+  transform: translateY(-5px);
+}
+
+.time-display[data-running="true"] .time-display-colon {
+  animation-name: colon-pulse;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+}
+
+@keyframes colon-pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.time-display-seconds {
+  justify-content: flex-start;
+}
