@@ -52,18 +52,14 @@ export function Pour() {
         start={pacer.volumeStart.value}
         end={pacer.volumeEnd.value}
       />
+      <TimeDisplay
+        sec={pacer.totalTime.value}
+        stepTime={pacer.currentStep.time}
+        running={pacer.running.value}
+      />
       <button onClick={handleOnStart}>Start</button>
       <button onClick={handleOnPause}>Pause</button>
       <button onClick={handleOnReset}>Reset</button>
-      <p>step: {pacer.stepIndex}</p>
-      <p>step time: {pacer.stepCountdown}</p>
-      <div>
-        <span>total time:</span>
-        <TimeDisplay
-          sec={pacer.totalTime.value}
-          running={pacer.running.value}
-        />
-      </div>
     </section>
   );
 }
