@@ -5,6 +5,7 @@ import { RecipeStep, StepChangeHandler } from "@/stores/RecipeState";
 import { Signal } from "@preact/signals";
 import { ComponentProps } from "preact";
 import { useCallback } from "preact/hooks";
+import "./settings.css";
 
 function StepSettings({
   stepIndex,
@@ -32,7 +33,7 @@ function StepSettings({
   );
 
   return (
-    <fieldset>
+    <fieldset className="settings__fieldset">
       <NumberInput
         label="t"
         initialValue={time}
@@ -44,7 +45,9 @@ function StepSettings({
         initialValue={water}
         onChange={(value) => handleOnChange("water", value)}
       />
-      <button onClick={handleOnDelete}>-</button>
+      <button className="settings__delete-button" onClick={handleOnDelete}>
+        -
+      </button>
     </fieldset>
   );
 }
@@ -59,7 +62,7 @@ function Summary({
   onChangeDose: (dose: number) => void;
 }) {
   return (
-    <fieldset>
+    <fieldset className="settings__fieldset">
       <NumberInput label="d" initialValue={dose} onChange={onChangeDose} />
       <NumberInput label="total w" initialValue={totalWaterVolume} readOnly />
     </fieldset>
@@ -91,13 +94,24 @@ export function Settings() {
   return (
     <section>
       <form>
-        <button onClick={handleOnClickOkay}>Okay</button>
+        <div className="settings__right-align">
+          <button
+            className="settings__action-button"
+            onClick={handleOnClickOkay}
+          >
+            Okay
+          </button>
+        </div>
         <Summary
           totalWaterVolume={recipe.totalWaterVolume.value}
           dose={recipe.dose}
           onChangeDose={(d) => recipe.setDose(d)}
         />
-        <button onClick={handleOnAddStep}>step +</button>
+        <div className="settings__right-align">
+          <button className="settings__action-button" onClick={handleOnAddStep}>
+            step +
+          </button>
+        </div>
         {recipe.steps.signal.value.map(({ time, water }, index) => (
           <StepSettings
             key={`item-${index}`}
