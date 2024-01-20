@@ -1,0 +1,16 @@
+.pour__header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+}
+
+.pour__footer {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+}
+
+.pour__action-button {
+  font-size: 1.5rem;
+}

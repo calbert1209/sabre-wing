@@ -6,6 +6,8 @@ import { useComputed } from "@preact/signals";
 import { VolumeDisplay } from "@/components/VolumeDisplay";
 import { TimeDisplay } from "@/components/TimeDisplay";
 import { useAppState } from "@/providers/AppStateProvider";
+import "./pour.css";
+import { CenterRow } from "@/components/layout";
 
 export function Pour() {
   const appState = useAppState();
@@ -18,7 +20,7 @@ export function Pour() {
     );
   });
   const pacer = useMemo(() => {
-    return new Pacer(pacerSteps.value, 1000);
+    return new Pacer(pacerSteps.value, 100);
   }, [pacerSteps.value]);
 
   useEffect(() => {
@@ -45,20 +47,36 @@ export function Pour() {
 
   return (
     <section>
-      <button onClick={handleOnClickSettings}>Settings</button>
-      <VolumeDisplay
-        totalVolume={pacer.totalVolume.value}
-        start={pacer.volumeStart.value}
-        end={pacer.volumeEnd.value}
-      />
-      <TimeDisplay
-        sec={pacer.stepTimeRemaining.value}
-        stepTime={pacer.totalTime.value}
-        running={pacer.running.value}
-      />
-      <button onClick={handleOnStart}>Start</button>
-      <button onClick={handleOnPause}>Pause</button>
-      <button onClick={handleOnReset}>Reset</button>
+      <header className="pour__header">
+        <button className="pour__action-button" onClick={handleOnClickSettings}>
+          Settings
+        </button>
+      </header>
+      <CenterRow>
+        <VolumeDisplay
+          totalVolume={pacer.totalVolume.value}
+          start={pacer.volumeStart.value}
+          end={pacer.volumeEnd.value}
+        />
+      </CenterRow>
+      <CenterRow>
+        <TimeDisplay
+          sec={pacer.stepTimeRemaining.value}
+          stepTime={pacer.totalTime.value}
+          running={pacer.running.value}
+        />
+      </CenterRow>
+      <footer className="pour__footer">
+        <button className="pour__action-button" onClick={handleOnStart}>
+          Start
+        </button>
+        <button className="pour__action-button" onClick={handleOnPause}>
+          Pause
+        </button>
+        <button className="pour__action-button" onClick={handleOnReset}>
+          Reset
+        </button>
+      </footer>
     </section>
   );
 }
