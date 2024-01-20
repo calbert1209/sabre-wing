@@ -1,7 +1,8 @@
 import { Signal, computed, signal } from "@preact/signals";
 import { Clock } from "./clock";
+import { limitToTestEnv } from "@/utils";
 
-export function stateAtTime(s: PacerStep[], t: number) {
+function stateAtTime(s: PacerStep[], t: number) {
   if (t < 0) {
     return null;
   }
@@ -25,6 +26,8 @@ export function stateAtTime(s: PacerStep[], t: number) {
 
   return null;
 }
+
+export const stateAtTime__testOnly = limitToTestEnv(stateAtTime);
 
 export class PacerStep {
   constructor(public readonly time: number, public readonly water: number) {}

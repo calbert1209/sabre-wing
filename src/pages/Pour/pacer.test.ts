@@ -1,4 +1,4 @@
-import { PacerStep, stateAtTime } from "./pacer";
+import { PacerStep, stateAtTime__testOnly as stateAtTime } from "./pacer";
 import { describe, test, expect } from "vitest";
 
 describe(`${stateAtTime.name}`, () => {
