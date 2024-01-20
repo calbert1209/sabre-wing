@@ -1,6 +1,6 @@
 import { Signal } from "@preact/signals";
-import { ComponentProps } from "preact";
-import { ChangeEvent, useCallback } from "preact/compat";
+import { useCallback } from "preact/compat";
+import "./numberInput.css";
 
 export function NumberInput({
   label,
@@ -25,8 +25,9 @@ export function NumberInput({
   }, []);
   return (
     <>
-      <label children={label} />
+      <label className="number-input__label" children={label} />
       <input
+        className="number-input__input"
         type="number"
         value={initialValue}
         onChange={handleOnChange}

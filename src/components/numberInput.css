@@ -1,0 +1,12 @@
+.number-input {
+  padding: 8px;
+}
+
+.number-input__label {
+  font-size: 1.2rem;
+}
+
+.number-input__input {
+  font-size: 2rem;
+  width: 5rem;
+}
