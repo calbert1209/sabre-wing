@@ -1,11 +1,13 @@
 
 .volume-display {
   --minor-width: 2.5rem;
-  --major-width: 6rem;
+  --major-width: 10rem;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 8px;
   align-items: baseline;
+  padding: 16px;
 }
 
 .volume-display-number {
@@ -16,13 +18,14 @@
 }
 
 .volume-display-primary {
-  font-size: 3rem;
+  font-size: 5rem;
   line-height: 1;
   width: var(--major-width);
 }
 
 .volume-display-secondary {
   width: var(--minor-width);
+  font-size: 1.5rem;
 }
 
 .volume-display-end {
