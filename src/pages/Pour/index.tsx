@@ -7,7 +7,7 @@ import { VolumeDisplay } from "@/components/VolumeDisplay";
 import { TimeDisplay } from "@/components/TimeDisplay";
 import { useAppState } from "@/providers/AppStateProvider";
 import "./pour.css";
-import { CenterRow } from "@/components/layout";
+import { CenterRow } from "@/components/Layout";
 
 export function Pour() {
   const appState = useAppState();
