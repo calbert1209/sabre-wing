@@ -1,13 +1,14 @@
 .time-display {
     display: flex;
-    flex-direction: row;
-    align-items: baseline;
+    flex-direction: column;
+    align-items: center;
     gap: 8px;
+    padding: 16px;
 }
 
 .total-time-display {
   font-family: var(--font-koho);
-  font-size: 1rem;
+  font-size: 1.5rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,7 +16,7 @@
 }
 
 .total-time-display[data-size="primary"] {
-  font-size: 3rem;
+  font-size: 4rem;
   gap: 4px;
 }
 
@@ -23,11 +24,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 1.5rem;
+    width: 2rem;
 }
 
 .total-time-display[data-size="primary"] .total-time-display-digits {
-  width: 4rem;
+  width: 6rem;
 }
 
 .total-time-display-minutes {
