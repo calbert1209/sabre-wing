@@ -1,18 +1,43 @@
 import { Signal, computed, signal } from "@preact/signals";
 import { Clock } from "./clock";
 
+export function stateAtTime(s: PacerStep[], t: number) {
+  if (t < 0) {
+    return null;
+  }
+
+  let tRemain = t;
+  let vStart = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i].time >= tRemain) {
+      return {
+        index: i,
+        volumeStart: vStart,
+        volumeEnd: vStart + s[i].water,
+        stepTime: tRemain,
+        totalVolume: vStart + s[i].volumeAtTime(tRemain),
+      };
+    }
+
+    tRemain -= s[i].time;
+    vStart += s[i].water;
+  }
+
+  return null;
+}
+
 export class PacerStep {
   constructor(public readonly time: number, public readonly water: number) {}
 
-  get amountPerTick() {
-    return this.water / this.time;
+  volumeAtTime(t: number) {
+    return (this.water / this.time) * t;
   }
 }
 
 export class Pacer {
   private readonly clock: Clock;
   public readonly totalTime: Signal<number>;
-  public readonly stepCountdown: Signal<number>;
+  public readonly stepTime: Signal<number>;
   public readonly stepIndex: Signal<number>;
   public readonly totalVolume: Signal<number>;
   public readonly volumeStart: Signal<number>;
@@ -20,6 +45,7 @@ export class Pacer {
   public readonly running: Signal<boolean>;
 
   private readonly targetVolume: number;
+  private readonly targetTime: number;
 
   constructor(
     private readonly steps: PacerStep[],
@@ -28,12 +54,17 @@ export class Pacer {
     this.clock = new Clock(tickDuration);
     this.clock.addEventListener("tick", this.onTick.bind(this));
     this.totalTime = signal(0);
-    this.stepCountdown = signal(steps[0].time);
+    this.stepTime = signal(steps[0].time);
     this.stepIndex = signal(0);
     this.totalVolume = signal(0);
     this.volumeStart = signal(0);
     this.volumeEnd = signal(steps[0].water);
-    this.targetVolume = steps.reduce((agg, c) => agg + c.water, 0);
+    const [recipeT, recipeW] = steps.reduce(
+      ([aggT, aggW], c) => [aggT + c.time, aggW + c.water],
+      [0, 0]
+    );
+    this.targetTime = recipeT;
+    this.targetVolume = recipeW;
     this.running = signal(false);
   }
 
@@ -58,7 +89,7 @@ export class Pacer {
   public reset() {
     this.clock.reset();
     this.totalTime.value = 0;
-    this.stepCountdown.value = this.steps[0].time;
+    this.stepTime.value = 0;
     this.stepIndex.value = 0;
     this.totalVolume.value = 0;
     this.volumeStart.value = 0;
@@ -68,31 +99,19 @@ export class Pacer {
 
   private onTick() {
     this.totalTime.value = this.clock.value;
-    this.totalVolume.value += this.currentStep.amountPerTick;
+    const { index, volumeStart, volumeEnd, stepTime, totalVolume } =
+      stateAtTime(this.steps, this.clock.value);
+    this.stepIndex.value = index;
+    this.stepTime.value = stepTime;
+    this.volumeStart.value = volumeStart;
+    this.volumeEnd.value = volumeEnd;
+    this.totalVolume.value = totalVolume;
 
     if (
-      this.stepCountdown.value === 0 &&
-      this.stepIndex.value + 1 >= this.steps.length
+      this.totalTime.value === this.targetTime ||
+      this.totalVolume.value === this.targetVolume
     ) {
       this.stop();
-      return;
-    }
-
-    if (this.stepCountdown.value === 0) {
-      this.stepIndex.value += 1;
-      const nextStart = this.steps.reduce((agg, step, i) => {
-        if (i > this.stepIndex.value) {
-          return agg;
-        }
-
-        return agg + step.water;
-      }, 0);
-      this.stepCountdown.value = this.currentStep.time - 1;
-      this.volumeStart.value = nextStart;
-      this.volumeEnd.value = nextStart + this.currentStep.water;
-      this.totalVolume.value = nextStart;
-    } else {
-      this.stepCountdown.value -= 1;
     }
   }
 }
