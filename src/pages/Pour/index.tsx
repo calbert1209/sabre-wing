@@ -1,15 +1,14 @@
-import { Routes } from "@/constants/routes";
 import { useRecipeStateContext } from "@/providers/RecipeStateProvider";
 import { ButtonOnClickHandler } from "@/types";
-import { useLocation } from "preact-iso";
 import { useCallback, useEffect, useMemo } from "preact/hooks";
 import { Pacer, PacerStep } from "./pacer";
 import { useComputed } from "@preact/signals";
 import { VolumeDisplay } from "@/components/VolumeDisplay";
 import { TimeDisplay } from "@/components/TimeDisplay";
+import { useAppState } from "@/providers/AppStateProvider";
 
 export function Pour() {
-  const { route } = useLocation();
+  const appState = useAppState();
 
   const recipe = useRecipeStateContext();
 
@@ -29,7 +28,7 @@ export function Pour() {
   }, []);
 
   const handleOnClickSettings = useCallback<ButtonOnClickHandler>(
-    () => route(Routes.root),
+    () => appState.setMode("setup"),
     []
   );
 

@@ -1,26 +1,26 @@
 import { render } from "preact";
-import { LocationProvider, Router, Route } from "preact-iso";
 
-import { NotFound } from "./pages/_404";
 import "./style.css";
 import { Settings } from "./pages/Settings/index";
 import { RecipeStateProvider } from "./providers/RecipeStateProvider";
-import { Routes } from "./constants/routes";
 import { Pour } from "./pages/Pour";
+import { AppStateProvider, useAppState } from "./providers/AppStateProvider";
+
+function PageRouter() {
+  const appState = useAppState();
+
+  return appState.mode.value === "pour" ? <Pour /> : <Settings />;
+}
 
 export function App() {
   return (
-    <LocationProvider>
+    <AppStateProvider>
       <RecipeStateProvider>
         <main>
-          <Router>
-            <Route path={Routes.pour} component={Pour} />
-            <Route path={Routes.root} component={Settings} />
-            <Route default component={NotFound} />
-          </Router>
+          <PageRouter />
         </main>
       </RecipeStateProvider>
-    </LocationProvider>
+    </AppStateProvider>
   );
 }
 

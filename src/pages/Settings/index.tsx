@@ -1,10 +1,9 @@
 import { NumberInput } from "@/components/NumberInput";
-import { Routes } from "@/constants/routes";
+import { useAppState } from "@/providers/AppStateProvider";
 import { useRecipeStateContext } from "@/providers/RecipeStateProvider";
 import { RecipeStep, StepChangeHandler } from "@/stores/RecipeState";
 import { Signal } from "@preact/signals";
 import { ComponentProps } from "preact";
-import { useLocation } from "preact-iso/router";
 import { useCallback } from "preact/hooks";
 
 function StepSettings({
@@ -68,26 +67,25 @@ function Summary({
 }
 
 export function Settings() {
-  const state = useRecipeStateContext();
-
-  const { route } = useLocation();
+  const recipe = useRecipeStateContext();
+  const appState = useAppState();
 
   const handleOnAddStep = useCallback<HTMLButtonElement["onclick"]>((e) => {
     e.preventDefault();
-    state.addStep({ time: 30, water: 50 });
+    recipe.addStep({ time: 30, water: 50 });
   }, []);
 
   const handleOnChange = useCallback<
     ComponentProps<typeof StepSettings>["onChange"]
-  >((...args) => state.updateStep(...args), []);
+  >((...args) => recipe.updateStep(...args), []);
   const handleOnDelete = useCallback(
-    (index: number) => state.deleteStep(index),
+    (index: number) => recipe.deleteStep(index),
     []
   );
 
   const handleOnClickOkay = useCallback<HTMLButtonElement["onclick"]>((e) => {
     e.preventDefault();
-    route(Routes.pour);
+    appState.setMode("pour");
   }, []);
 
   return (
@@ -95,12 +93,12 @@ export function Settings() {
       <form>
         <button onClick={handleOnClickOkay}>Okay</button>
         <Summary
-          totalWaterVolume={state.totalWaterVolume.value}
-          dose={state.dose}
-          onChangeDose={(d) => state.setDose(d)}
+          totalWaterVolume={recipe.totalWaterVolume.value}
+          dose={recipe.dose}
+          onChangeDose={(d) => recipe.setDose(d)}
         />
         <button onClick={handleOnAddStep}>step +</button>
-        {state.steps.signal.value.map(({ time, water }, index) => (
+        {recipe.steps.signal.value.map(({ time, water }, index) => (
           <StepSettings
             key={`item-${index}`}
             stepIndex={index}
