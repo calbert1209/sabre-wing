@@ -52,8 +52,8 @@ export function Pour() {
         end={pacer.volumeEnd.value}
       />
       <TimeDisplay
-        sec={pacer.totalTime.value}
-        stepTime={pacer.currentStep.time}
+        sec={pacer.stepTimeRemaining.value}
+        stepTime={pacer.totalTime.value}
         running={pacer.running.value}
       />
       <button onClick={handleOnStart}>Start</button>

@@ -40,7 +40,7 @@ export function TimeDisplay({
 }) {
   return (
     <div className="time-display">
-      <TotalTimeDisplay sec={stepTime} size="secondary" />
+      <TotalTimeDisplay sec={stepTime} running={running} size="secondary" />
       <TotalTimeDisplay sec={sec} running={running} size="primary" />
     </div>
   );
