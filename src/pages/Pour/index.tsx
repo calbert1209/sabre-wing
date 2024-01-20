@@ -20,7 +20,7 @@ export function Pour() {
     );
   });
   const pacer = useMemo(() => {
-    return new Pacer(pacerSteps.value, 100);
+    return new Pacer(pacerSteps.value, 1000);
   }, [pacerSteps.value]);
 
   useEffect(() => {
