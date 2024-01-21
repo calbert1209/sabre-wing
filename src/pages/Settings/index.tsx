@@ -112,16 +112,18 @@ export function Settings() {
             step +
           </button>
         </div>
-        {recipe.steps.signal.value.map(({ time, water }, index) => (
-          <StepSettings
-            key={`item-${index}`}
-            stepIndex={index}
-            water={water}
-            time={time}
-            onChange={handleOnChange}
-            onDelete={handleOnDelete}
-          />
-        ))}
+        <div className="settings__step-list">
+          {recipe.steps.signal.value.map(({ time, water }, index) => (
+            <StepSettings
+              key={`item-${index}`}
+              stepIndex={index}
+              water={water}
+              time={time}
+              onChange={handleOnChange}
+              onDelete={handleOnDelete}
+            />
+          ))}
+        </div>
       </form>
     </section>
   );

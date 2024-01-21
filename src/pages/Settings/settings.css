@@ -4,7 +4,16 @@
   justify-content: space-around;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 16px;
+  border: 0;
+}
+
+.settings__step-list .settings__fieldset {
+  border-bottom: 1px dotted var(--pale-purple-50);
+}
+
+.settings__step-list .settings__fieldset:first-child {
+    border-top: 1px dotted var(--pale-purple-50);
 }
 
 .settings__delete-button {
