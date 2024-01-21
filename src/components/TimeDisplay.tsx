@@ -1,6 +1,6 @@
 import "./timeDisplay.css";
 
-function TotalTimeDisplay({
+export function TimeDisplay({
   sec,
   running,
   size,
@@ -14,34 +14,17 @@ function TotalTimeDisplay({
 
   return (
     <div
-      className="total-time-display"
+      className="time-display"
       data-running={!!running}
       data-size={size ?? "secondary"}
     >
-      <div className="total-time-display-digits total-time-display-minutes">
+      <div className="time-display-digits time-display-minutes">
         <div>{m}</div>
       </div>
-      <div className="total-time-display-colon">{":"}</div>
-      <div className="total-time-display-digits time-display-seconds">
+      <div className="time-display-colon">{":"}</div>
+      <div className="time-display-digits time-display-seconds">
         <div>{s}</div>
       </div>
-    </div>
-  );
-}
-
-export function TimeDisplay({
-  sec,
-  stepTime,
-  running,
-}: {
-  sec: number;
-  stepTime: number;
-  running?: boolean;
-}) {
-  return (
-    <div className="time-display">
-      <TotalTimeDisplay sec={sec} running={running} size="primary" />
-      <TotalTimeDisplay sec={stepTime} running={running} size="secondary" />
     </div>
   );
 }

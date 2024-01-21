@@ -7,7 +7,6 @@ import { VolumeDisplay } from "@/components/VolumeDisplay";
 import { TimeDisplay } from "@/components/TimeDisplay";
 import { useAppState } from "@/providers/AppStateProvider";
 import "./pour.css";
-import { CenterRow } from "@/components/Layout";
 
 export function Pour() {
   const appState = useAppState();
@@ -52,20 +51,16 @@ export function Pour() {
           Settings
         </button>
       </header>
-      <CenterRow>
-        <VolumeDisplay
-          totalVolume={pacer.totalVolume.value}
-          start={pacer.volumeStart.value}
-          end={pacer.volumeEnd.value}
-        />
-      </CenterRow>
-      <CenterRow>
-        <TimeDisplay
-          sec={pacer.stepTimeRemaining.value}
-          stepTime={pacer.totalTime.value}
-          running={pacer.running.value}
-        />
-      </CenterRow>
+      <VolumeDisplay
+        totalVolume={pacer.totalVolume.value}
+        start={pacer.volumeStart.value}
+        end={pacer.volumeEnd.value}
+      />
+      <TimeDisplay
+        sec={pacer.totalTime.value}
+        running={pacer.running.value}
+        size="primary"
+      />
       <footer className="pour__footer">
         <button className="pour__action-button" onClick={handleOnStart}>
           Start

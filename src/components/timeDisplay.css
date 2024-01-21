@@ -1,49 +1,43 @@
 .time-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 16px;
-}
-
-.total-time-display {
+  padding: 16px;
   font-family: var(--font-koho);
   font-size: 1.5rem;
   display: flex;
+  justify-content: center;
   flex-direction: row;
   align-items: center;
   gap: 2px;
 }
 
-.total-time-display[data-size="primary"] {
+.time-display[data-size="primary"] {
   font-size: 4rem;
   gap: 4px;
 }
 
-.total-time-display-digits {
+.time-display-digits {
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 2rem;
 }
 
-.total-time-display[data-size="primary"] .total-time-display-digits {
+.time-display[data-size="primary"] .time-display-digits {
   width: 6rem;
 }
 
-.total-time-display-minutes {
+.time-display-minutes {
   justify-content: flex-end;
 }
 
-.total-time-display-colon {
+.time-display-colon {
   transform: translateY(-2px);
 }
 
-.total-time-display[data-size="primary"] .total-time-display-colon {
+.time-display[data-size="primary"] .time-display-colon {
   transform: translateY(-5px);
 }
 
-.total-time-display[data-running="true"] .total-time-display-colon {
+.time-display[data-running="true"] .time-display-colon {
   animation-name: colon-pulse;
   animation-duration: 1000ms;
   animation-timing-function: ease-in-out;
@@ -64,6 +58,6 @@
   }
 }
 
-.total-time-display-seconds {
+.time-display-seconds {
   justify-content: flex-start;
 }
