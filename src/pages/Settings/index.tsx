@@ -4,8 +4,18 @@ import { useRecipeStateContext } from "@/providers/RecipeStateProvider";
 import { RecipeStep, StepChangeHandler } from "@/stores/RecipeState";
 import { Signal } from "@preact/signals";
 import { ComponentProps } from "preact";
-import { useCallback } from "preact/hooks";
+import { useCallback, useState } from "preact/hooks";
 import "./settings.css";
+import {
+  CoffeeMaker,
+  AddSetting,
+  RemoveSetting,
+  WaterDrop,
+  Timer,
+  Unlink,
+  Dose,
+  Link,
+} from "@/assets/SvgIcons";
 
 function StepSettings({
   stepIndex,
@@ -35,18 +45,18 @@ function StepSettings({
   return (
     <fieldset className="settings__fieldset">
       <NumberInput
-        label="t"
+        icon={Timer}
         initialValue={time}
         onChange={(value) => handleOnChange("time", value)}
         readOnly
       />
       <NumberInput
-        label="w"
+        icon={WaterDrop}
         initialValue={water}
         onChange={(value) => handleOnChange("water", value)}
       />
       <button className="settings__delete-button" onClick={handleOnDelete}>
-        -
+        <RemoveSetting />
       </button>
     </fieldset>
   );
@@ -56,15 +66,31 @@ function Summary({
   totalWaterVolume,
   dose,
   onChangeDose,
+  onClickLink,
+  linked,
 }: {
   totalWaterVolume: Signal<number> | number;
   dose: Signal<number>;
   onChangeDose: (dose: number) => void;
+  onClickLink?: () => void;
+  linked?: boolean;
 }) {
+  const handleClickLink = useCallback<HTMLButtonElement["onclick"]>((e) => {
+    e.preventDefault();
+    onClickLink?.();
+  }, []);
+
   return (
     <fieldset className="settings__fieldset">
-      <NumberInput label="d" initialValue={dose} onChange={onChangeDose} />
-      <NumberInput label="total w" initialValue={totalWaterVolume} readOnly />
+      <NumberInput icon={Dose} initialValue={dose} onChange={onChangeDose} />
+      <button
+        className="settings__link-toggle"
+        onClick={handleClickLink}
+        data-linked={linked ?? false}
+      >
+        {linked ? <Link /> : <Unlink />}
+      </button>
+      <NumberInput icon={WaterDrop} initialValue={totalWaterVolume} readOnly />
     </fieldset>
   );
 }
@@ -72,6 +98,10 @@ function Summary({
 export function Settings() {
   const recipe = useRecipeStateContext();
   const appState = useAppState();
+
+  const [linked, setLinked] = useState(false);
+
+  const handleLinkToggled = useCallback(() => setLinked((s) => !s), []);
 
   const handleOnAddStep = useCallback<HTMLButtonElement["onclick"]>((e) => {
     e.preventDefault();
@@ -99,17 +129,19 @@ export function Settings() {
             className="settings__action-button"
             onClick={handleOnClickOkay}
           >
-            Okay
+            <CoffeeMaker className="settings__icon" />
           </button>
         </div>
         <Summary
           totalWaterVolume={recipe.totalWaterVolume.value}
           dose={recipe.dose}
           onChangeDose={(d) => recipe.setDose(d)}
+          onClickLink={handleLinkToggled}
+          linked={linked}
         />
         <div className="settings__right-align">
           <button className="settings__action-button" onClick={handleOnAddStep}>
-            step +
+            <AddSetting className="settings__icon" />
           </button>
         </div>
         <div className="settings__step-list">

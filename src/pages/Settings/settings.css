@@ -1,11 +1,23 @@
 .settings__fieldset {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   gap: 8px;
   padding: 16px;
   border: 0;
+}
+
+.settings__fieldset label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.settings__fieldset label svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--light);
 }
 
 .settings__step-list .settings__fieldset {
@@ -17,9 +29,21 @@
 }
 
 .settings__delete-button {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 48px;
+  height: 36px;
   font-size: 1.5rem;
+  border: 1px solid var(--mid-purple);
+  background-color: var(--dark);
+  color: var(--mid-purple);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.settings__delete-button svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
 }
 
 .settings__right-align {
@@ -30,5 +54,40 @@
 }
 
 .settings__action-button {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 36px;
+  background-color: var(--mid-purple);
+  color: var(--dark);
+}
+
+.settings__icon {
+  width: 24px;
+  fill: var(--dark);
+}
+
+.settings__link-toggle {
+  background-color: var(--dark);
+  border: 1px solid var(--pale-purple);
+  color: var(--pale-purple);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  width: 32px;
+}
+
+.settings__link-toggle[data-linked="true"] {
+  color: var(--mid-purple);
+  border: 1px solid var(--mid-purple);
+}
+
+.settings__link-toggle svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+  transform: translateY(1px);
 }

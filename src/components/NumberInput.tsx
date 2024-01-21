@@ -1,14 +1,15 @@
 import { Signal } from "@preact/signals";
 import { useCallback } from "preact/compat";
 import "./numberInput.css";
+import { SvgIconComponent } from "@/assets/SvgIcons";
 
 export function NumberInput({
-  label,
+  icon: Icon,
   initialValue = 0,
   onChange,
   readOnly,
 }: {
-  label: string;
+  icon: SvgIconComponent;
   initialValue?: Signal<number> | number;
   onChange?: (next: number) => void;
   readOnly?: boolean;
@@ -25,7 +26,9 @@ export function NumberInput({
   }, []);
   return (
     <>
-      <label className="number-input__label" children={label} />
+      <label className="number-input__label">
+        <Icon />
+      </label>
       <input
         className="number-input__input"
         type="number"
