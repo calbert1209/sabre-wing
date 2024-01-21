@@ -6,7 +6,8 @@
 	--pale-purple: #c7bad9;
 	--pale-purple-50: color-mix(in srgb, var(--pale-purple) 50%, var(--light) 50%);
 	--light: #ede9f2;
-	--dark: #405259;
+	/* --dark: #405259; */
+	--dark: color-mix(in srgb, #405259 80%, black 20%);
 	--dark-80: color-mix(in srgb, var(--dark) 80%, var(--light) 20%);
 
 	--font-rajdhani: 'Rajdhani',sans-serif;
