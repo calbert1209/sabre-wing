@@ -31,3 +31,26 @@
 .volume-display-end {
   margin-bottom: auto;
 }
+
+.volume-display__ramp-row {
+  display: flex;
+  justify-content: center;
+}
+
+.volume-display__ramp-container {
+  width: 200px;
+  height: 40px;
+  position: relative;
+  left: 0;
+  top: 0;
+  background-color: var(--pale-purple);
+  clip-path:polygon(100% 0%, 100% 100%, 0% 100%, 0% 96%);
+}
+
+.volume-display__progress-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 40px;
+  background-color: var(--bold-purple);
+}
