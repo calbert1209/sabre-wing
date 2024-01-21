@@ -4,8 +4,10 @@
 	--bold-purple: #7c3bd9;
 	--mid-purple: #a784d9;
 	--pale-purple: #c7bad9;
+	--pale-purple-50: color-mix(in srgb, var(--pale-purple) 50%, var(--light) 50%);
 	--light: #ede9f2;
 	--dark: #405259;
+	--dark-80: color-mix(in srgb, var(--dark) 80%, var(--light) 20%);
 
 	--font-rajdhani: 'Rajdhani',sans-serif;
 	--font-koho: 'KoHo', san-serif;
@@ -14,8 +16,8 @@
 	line-height: 1.5;
 	font-weight: 400;
 
-	color: #222;
-	background-color: #ffffff;
+	color: var(--light);
+	background-color: var(--dark);
 
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
@@ -26,6 +28,9 @@
 
 body {
 	margin: 0;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 320px;
 }
 
 button {
@@ -34,6 +39,16 @@ button {
 
 input[type=number] {
 	font-family: var(--font-koho);
+	background-color: var(--dark-80);
+	color: var(--pale-purple-50);
+	border: 0;
+	border-radius: 2px;
+	text-align: center;
+}
+
+input[type=number]:focus, input[type=number]:focus-visible {
+	outline: 0;
+	box-shadow: 0px 0px 3px var(--mid-purple);
 }
 
 #app {
@@ -46,15 +61,3 @@ fieldset {
 	border: none;
 }
 
-@media (max-width: 639px) {
-	main {
-		margin: 2rem;
-	}
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		color: #ccc;
-		background-color: #1a1a1a;
-	}
-}
