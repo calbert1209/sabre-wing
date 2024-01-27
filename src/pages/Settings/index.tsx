@@ -15,6 +15,7 @@ import {
   Unlink,
   Dose,
   Link,
+  Reset,
 } from "@/assets/SvgIcons";
 
 function StepSettings({
@@ -103,6 +104,11 @@ export function Settings() {
 
   const handleLinkToggled = useCallback(() => setLinked((s) => !s), []);
 
+  const handleOnReset = useCallback<HTMLButtonElement["onclick"]>((e) => {
+    e.preventDefault();
+    recipe.reset();
+  }, []);
+
   const handleOnAddStep = useCallback<HTMLButtonElement["onclick"]>((e) => {
     e.preventDefault();
     recipe.addStep({ time: 30, water: 50 });
@@ -124,14 +130,17 @@ export function Settings() {
   return (
     <section>
       <form>
-        <div className="settings__right-align">
+        <header className="settings__header">
+          <button className="settings__reset-button" onClick={handleOnReset}>
+            <Reset className="settings__reset-button-icon" />
+          </button>
           <button
             className="settings__action-button"
             onClick={handleOnClickOkay}
           >
             <CoffeeMaker className="settings__icon" />
           </button>
-        </div>
+        </header>
         <Summary
           totalWaterVolume={recipe.totalWaterVolume.value}
           dose={recipe.dose}

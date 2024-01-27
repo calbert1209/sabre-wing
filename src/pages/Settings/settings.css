@@ -46,11 +46,34 @@
   fill: currentColor;
 }
 
+.settings__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px;
+}
+
 .settings__right-align {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   padding: 16px 16px 16px 0;
+}
+
+.settings__reset-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 36px;
+  background-color: var(--dark);
+  color: var(--mid-purple);
+  border-color: var(--mid-purple);
+}
+
+.settings__reset-button-icon {
+  width: 24px;
+  fill: currentColor;
 }
 
 .settings__action-button {
