@@ -4,7 +4,7 @@ import { useRecipeStateContext } from "@/providers/RecipeStateProvider";
 import { RecipeStep, StepChangeHandler } from "@/stores/RecipeState";
 import { Signal } from "@preact/signals";
 import { ComponentProps } from "preact";
-import { useCallback, useState } from "preact/hooks";
+import { useCallback } from "preact/hooks";
 import "./settings.css";
 import {
   CoffeeMaker,
@@ -100,9 +100,12 @@ export function Settings() {
   const recipe = useRecipeStateContext();
   const appState = useAppState();
 
-  const [linked, setLinked] = useState(false);
+  const handleLinkToggled = useCallback(() => recipe.toggleLinked(), []);
 
-  const handleLinkToggled = useCallback(() => setLinked((s) => !s), []);
+  const handleOnChangeDose = useCallback(
+    (dose: number) => recipe.setDose(dose),
+    []
+  );
 
   const handleOnReset = useCallback<HTMLButtonElement["onclick"]>((e) => {
     e.preventDefault();
@@ -144,9 +147,9 @@ export function Settings() {
         <Summary
           totalWaterVolume={recipe.totalWaterVolume.value}
           dose={recipe.dose}
-          onChangeDose={(d) => recipe.setDose(d)}
+          onChangeDose={(dose: number) => recipe.setDose(dose)}
           onClickLink={handleLinkToggled}
-          linked={linked}
+          linked={recipe.linked.value}
         />
         <div className="settings__right-align">
           <button className="settings__action-button" onClick={handleOnAddStep}>

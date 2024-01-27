@@ -19,6 +19,11 @@ export class SignalArray<T> {
     nextArray.push(item);
     this.signal.value = nextArray;
   }
+
+  public map(callback: (item: T, index: number, array: T[]) => T) {
+    const nextArray = [...this.signal.value].map(callback);
+    this.signal.value = nextArray;
+  }
 }
 
 export function useSignalArray<T>(init: (() => T[]) | T[]): SignalArray<T> {

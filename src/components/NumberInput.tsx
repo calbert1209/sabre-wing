@@ -16,7 +16,8 @@ export function NumberInput({
 }) {
   const handleOnChange = useCallback<HTMLInputElement["onchange"]>((e) => {
     const target = e.target as HTMLInputElement;
-    onChange?.(parseInt(target.value, 10));
+    const targetValue = target.value || "0";
+    onChange?.(parseInt(targetValue, 10));
   }, []);
 
   const muteOnEnterKey = useCallback((e: KeyboardEvent) => {
