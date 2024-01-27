@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 8px;
+  gap: 24px;
   align-items: baseline;
   padding: 16px;
 }
@@ -18,14 +18,16 @@
 }
 
 .volume-display-primary {
-  font-size: 5rem;
+  font-size: 6rem;
   line-height: 1;
   width: var(--major-width);
+  color: var(--mid-purple);
 }
 
 .volume-display-secondary {
   width: var(--minor-width);
-  font-size: 1.5rem;
+  font-size: 2rem;
+  color: var(--pale-purple);
 }
 
 .volume-display-end {
@@ -38,7 +40,7 @@
 }
 
 .volume-display__ramp-container {
-  width: 200px;
+  width: 256px;
   height: 40px;
   position: relative;
   left: 0;

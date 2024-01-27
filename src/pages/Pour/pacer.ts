@@ -83,6 +83,14 @@ export class Pacer {
     this.clock.stop();
   }
 
+  public togglePlay() {
+    if (this.running.value) {
+      this.stop();
+    } else {
+      this.start();
+    }
+  }
+
   public reset() {
     this.clock.reset();
     this.totalTime.value = 0;

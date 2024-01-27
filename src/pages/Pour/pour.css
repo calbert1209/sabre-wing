@@ -6,11 +6,52 @@
 
 .pour__footer {
   display: flex;
-  justify-content: center;
-  gap: 8px;
+  justify-content: space-between;
   padding: 16px;
 }
 
-.pour__action-button {
-  font-size: 1.5rem;
+.pour__tune-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 36px;
+  background-color: var(--mid-purple);
+  color: var(--dark);
+}
+
+.tune-button__icon {
+  width: 24px;
+  fill: var(--dark);
+}
+
+.pour__reset-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 54px;
+  height: 54px;
+  background-color: var(--dark);
+  color: var(--mid-purple);
+  border-color: var(--mid-purple);
+}
+
+.pour__reset-button__icon {
+  fill: currentColor;
+  width: 36px;
+}
+
+.play-control-action-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 88px;
+  background-color: var(--mid-purple);
+}
+
+.play-control-button__icon {
+    fill: currentColor;
+    width: 64px;
+    fill: var(--dark);
 }

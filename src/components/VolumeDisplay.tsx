@@ -6,9 +6,8 @@ export function VolumeDisplay(props: {
   start: number;
   end: number;
 }) {
-  const [totalVolume, start, end] = [
+  const [totalVolume, end] = [
     Math.round(props.totalVolume),
-    Math.floor(props.start),
     Math.ceil(props.end),
   ];
 

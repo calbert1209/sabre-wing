@@ -7,6 +7,7 @@ import { VolumeDisplay } from "@/components/VolumeDisplay";
 import { TimeDisplay } from "@/components/TimeDisplay";
 import { useAppState } from "@/providers/AppStateProvider";
 import "./pour.css";
+import { Pause, Play, Reset, Tune } from "@/assets/SvgIcons";
 
 export function Pour() {
   const appState = useAppState();
@@ -33,22 +34,21 @@ export function Pour() {
     []
   );
 
-  const handleOnStart = useCallback<ButtonOnClickHandler>(() => {
-    pacer.start();
-  }, []);
-  const handleOnPause = useCallback<ButtonOnClickHandler>(() => {
-    pacer.stop();
+  const handleTogglePlay = useCallback<ButtonOnClickHandler>(() => {
+    pacer.togglePlay();
   }, []);
 
   const handleOnReset = useCallback<ButtonOnClickHandler>(() => {
     pacer.reset();
   }, []);
 
+  const PlayControlIcon = pacer.running.value ? Pause : Play;
+
   return (
     <section>
       <header className="pour__header">
-        <button className="pour__action-button" onClick={handleOnClickSettings}>
-          Settings
+        <button className="pour__tune-button" onClick={handleOnClickSettings}>
+          <Tune className="tune-button__icon" />
         </button>
       </header>
       <VolumeDisplay
@@ -62,14 +62,14 @@ export function Pour() {
         size="primary"
       />
       <footer className="pour__footer">
-        <button className="pour__action-button" onClick={handleOnStart}>
-          Start
+        <button
+          className="play-control-action-button"
+          onClick={handleTogglePlay}
+        >
+          <PlayControlIcon className="play-control-button__icon" />
         </button>
-        <button className="pour__action-button" onClick={handleOnPause}>
-          Pause
-        </button>
-        <button className="pour__action-button" onClick={handleOnReset}>
-          Reset
+        <button className="pour__reset-button" onClick={handleOnReset}>
+          <Reset className="pour__reset-button__icon" />
         </button>
       </footer>
     </section>
